@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Kamyon Tartım Hesaplama</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            padding: 24px 16px 40px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            max-width: 580px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: #1e3a2f;
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: -0.3px;
+        }
+
+        .form-container {
+            padding: 24px 20px 16px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c5a4a;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .input-wrapper {
+            background: #f5f7fa;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: #1e6b58;
+            background: white;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: monospace;
+            color: #1a2e28;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #bdc3cc;
+            font-weight: 400;
+        }
+
+        .calc-btn {
+            width: 100%;
+            background: #1e6b58;
+            border: none;
+            padding: 15px;
+            border-radius: 16px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .calc-btn:active {
+            transform: scale(0.97);
+            background: #155744;
+        }
+
+        .results {
+            background: #fafcfd;
+            margin: 8px 20px 20px 20px;
+            border-radius: 24px;
+            padding: 8px 0;
+            border: 1px solid #eef2f5;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 16px 20px;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2d4a3e;
+        }
+
+        .result-value {
+            font-weight: 700;
+            font-size: 1.5rem;
+            font-family: monospace;
+            color: #1f3e36;
+            background: #eef3f0;
+            padding: 4px 14px;
+            border-radius: 40px;
+        }
+
+        .save-section {
+            margin: 0 20px 20px 20px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 20px;
+            border: 1px solid #e2edf2;
+        }
+
+        .save-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .save-input {
+            flex: 1;
+        }
+
+        .save-input input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #dce5ec;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            background: white;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .save-input input:focus {
+            border-color: #1e6b58;
+        }
+
+        .save-input input::placeholder {
+            color: #b9c3cd;
+        }
+
+        .save-btn {
+            background: #2c5a4a;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .save-btn:active {
+            transform: scale(0.96);
+            background: #1e3a2f;
+        }
+
+        .history-section {
+            margin: 0 20px 24px 20px;
+        }
+
+        .history-title {
+            font-weight: 600;
+            color: #2c5a4a;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-history {
+            background: none;
+            border: none;
+            color: #c44536;
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 20px;
+        }
+
+        .history-list {
+            max-height: 320px;
+            overflow-y: auto;
+            background: #fafcfd;
+            border-radius: 20px;
+            border: 1px solid #eef2f5;
+        }
+
+        .history-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 0.8rem;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1f3e36;
+        }
+
+        .history-name {
+            color: #1e6b58;
+            font-weight: 700;
+        }
+
+        .history-date {
+            color: #8ba89c;
+            font-size: 0.7rem;
+        }
+
+        .history-girdiler {
+            background: #f0f4f2;
+            padding: 8px 10px;
+            border-radius: 12px;
+            margin: 8px 0;
+            font-size: 0.7rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            color: #2c5a4a;
+        }
+
+        .history-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #4a6b5e;
+            margin-top: 6px;
+        }
+
+        .delete-item {
+            background: none;
+            border: none;
+            color: #c44536;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+
+        .reset-btn {
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            color: #8ba89c;
+            padding: 8px 16px;
+            margin-bottom: 8px;
+            margin-left: auto;
+            display: block;
+            cursor: pointer;
+        }
+
+        .reset-btn:active {
+            opacity: 0.6;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 16px 12px;
+            }
+            .result-value {
+                font-size: 1.2rem;
+                padding: 2px 12px;
+            }
+            .save-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .save-btn {
+                width: 100%;
+            }
+        }
+
+        .toast-msg {
+            background: #2c5a4a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+            z-index: 200;
+            white-space: nowrap;
+        }
+
+        .toast-msg.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="hero">
+        <h1>⚖️ KAMYON TARTIM</h1>
+    </div>
+
+    <div class="form-container">
+        <div class="input-group">
+            <label>KAMYON BOŞ</label>
+            <div class="input-wrapper">
+                <input type="number" id="bosKamyon" placeholder="0" step="any">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>KAMYON DOLU</label>
+            <div class="input-wrapper">
+                <input type="number" id="doluKamyon" placeholder="0" step="any">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>SHENK</label>
+            <div class="input-wrapper">
+                <input type="number" id="shenk" placeholder="0" step="any">
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>ESKİ CF</label>
+            <div class="input-wrapper">
+                <input type="number" id="eskiCf" placeholder="1.000" step="any">
+            </div>
+        </div>
+
+        <button class="calc-btn" id="hesaplaBtn">HESAPLA</button>
+    </div>
+
+    <div class="results">
+        <div class="result-item">
+            <span class="result-label">NET</span>
+            <span class="result-value" id="netDeger">—</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">FARK</span>
+            <span class="result-value" id="farkDeger">—</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">YENİ CF</span>
+            <span class="result-value" id="yeniCfDeger">—</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">HATA ORANI</span>
+            <span class="result-value" id="hataOranDeger">—</span>
+        </div>
+    </div>
+
+    <div class="save-section">
+        <div class="save-row">
+            <div class="save-input">
+                <input type="text" id="kayitIsim" placeholder="İsim / Plaka / Not">
+            </div>
+            <div class="save-input">
+                <input type="date" id="kayitTarih">
+            </div>
+            <button class="save-btn" id="kaydetBtn">💾 KAYDET</button>
+        </div>
+    </div>
+
+    <div class="history-section">
+        <div class="history-title">
+            <span>📋 GEÇMİŞ HESAPLAR</span>
+            <button class="clear-history" id="temizleGecmisBtn">🗑 TÜMÜNÜ SİL</button>
+        </div>
+        <div class="history-list" id="gecmisListesi">
+            <div style="padding: 20px; text-align: center; color: #8ba89c;">Henüz kayıt yok</div>
+        </div>
+    </div>
+
+    <button class="reset-btn" id="resetBtn">TEMİZLE</button>
+</div>
+
+<div id="toastMsg" class="toast-msg"></div>
+
+<script>
+    (function() {
+        const bosInput = document.getElementById('bosKamyon');
+        const doluInput = document.getElementById('doluKamyon');
+        const shenkInput = document.getElementById('shenk');
+        const eskiCfInput = document.getElementById('eskiCf');
+        const hesaplaBtn = document.getElementById('hesaplaBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const kaydetBtn = document.getElementById('kaydetBtn');
+        const temizleGecmisBtn = document.getElementById('temizleGecmisBtn');
+        const kayitIsim = document.getElementById('kayitIsim');
+        const kayitTarih = document.getElementById('kayitTarih');
+
+        const netSpan = document.getElementById('netDeger');
+        const farkSpan = document.getElementById('farkDeger');
+        const yeniCfSpan = document.getElementById('yeniCfDeger');
+        const hataOranSpan = document.getElementById('hataOranDeger');
+
+        const toast = document.getElementById('toastMsg');
+        const gecmisListesi = document.getElementById('gecmisListesi');
+
+        let toastTimeout = null;
+        let sonHesaplanan = null;
+        let sonGirdiler = null;  // girilen değerleri de sakla
+
+        let kayitlar = [];
+
+        function loadHistory() {
+            const stored = localStorage.getItem('kamyonHesaplari');
+            if (stored) {
+                try {
+                    kayitlar = JSON.parse(stored);
+                } catch(e) { kayitlar = []; }
+            } else {
+                kayitlar = [];
+            }
+            renderHistory();
+        }
+
+        function saveHistory() {
+            localStorage.setItem('kamyonHesaplari', JSON.stringify(kayitlar));
+            renderHistory();
+        }
+
+        function formatNumber(num) {
+            return Math.round(num).toLocaleString();
+        }
+
+        function renderHistory() {
+            if (!gecmisListesi) return;
+            
+            if (kayitlar.length === 0) {
+                gecmisListesi.innerHTML = '<div style="padding: 20px; text-align: center; color: #8ba89c;">Henüz kayıt yok</div>';
+                return;
+            }
+            
+            const tersKayitlar = [...kayitlar].reverse();
+            
+            gecmisListesi.innerHTML = tersKayitlar.map((item, index) => {
+                const originalIndex = kayitlar.length - 1 - index;
+                return `
+                    <div class="history-item">
+                        <div class="history-header">
+                            <span class="history-name">${escapeHtml(item.isim) || 'İsimsiz'}</span>
+                            <div>
+                                <span class="history-date">${item.tarih || 'Tarihsiz'}</span>
+                                <button class="delete-item" data-index="${originalIndex}">✕</button>
+                            </div>
+                        </div>
+                        <div class="history-girdiler">
+                            <span>🚛 Boş: ${item.bosKamyon}</span>
+                            <span>🏗️ Dolu: ${item.doluKamyon}</span>
+                            <span>📏 Shenk: ${item.shenk}</span>
+                            <span>🔄 Eski CF: ${item.eskiCf}</span>
+                        </div>
+                        <div class="history-values">
+                            <span>📊 NET: ${item.net}</span>
+                            <span>📉 FARK: ${item.fark}</span>
+                            <span>✨ Yeni CF: ${item.yeniCf}</span>
+                            <span>⚠️ Hata: ${item.hataOran}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.querySelectorAll('.delete-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    if (!isNaN(index)) {
+                        kayitlar.splice(index, 1);
+                        saveHistory();
+                        showMessage('Kayıt silindi');
+                    }
+                });
+            });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        function showMessage(msg) {
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toast.textContent = msg;
+            toast.classList.add('show');
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function parseNumber(value) {
+            if (value === null || value === undefined || value === '') return NaN;
+            let cleaned = value.toString().trim().replace(/,/g, '.');
+            if (cleaned === '') return NaN;
+            const num = Number(cleaned);
+            return isNaN(num) ? NaN : num;
+        }
+
+        function hesapla() {
+            const bos = parseNumber(bosInput.value);
+            const dolu = parseNumber(doluInput.value);
+            const shenk = parseNumber(shenkInput.value);
+            const eskiCf = parseNumber(eskiCfInput.value);
+
+            if (isNaN(bos) || isNaN(dolu) || isNaN(shenk) || isNaN(eskiCf)) {
+                showMessage('Tüm alanları doldurun');
+                return;
+            }
+
+            if (shenk === 0) {
+                showMessage('Shenk 0 olamaz');
+                return;
+            }
+
+            if (eskiCf === 0) {
+                showMessage('Eski CF 0 olamaz');
+                return;
+            }
+
+            const net = dolu - bos;
+            const fark = net - shenk;
+            
+            const netTam = Math.round(net).toLocaleString();
+            const farkTam = Math.round(fark).toLocaleString();
+            
+            netSpan.innerText = netTam;
+            farkSpan.innerText = farkTam;
+
+            // Girdileri formatlı sakla
+            const bosFormatted = Math.round(bos).toLocaleString();
+            const doluFormatted = Math.round(dolu).toLocaleString();
+            const shenkFormatted = Math.round(shenk).toLocaleString();
+            const eskiCfFormatted = eskiCf.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 6 });
+
+            if (net <= 0) {
+                showMessage('Net ağırlık sıfır veya negatif');
+                yeniCfSpan.innerText = '—';
+                hataOranSpan.innerText = '—';
+                sonHesaplanan = null;
+                sonGirdiler = null;
+                return;
+            }
+
+            const netBolShenk = net / shenk;
+            const yeniCf = netBolShenk * eskiCf;
+            const hataOran = (netBolShenk - 1) * 100;
+            
+            const yeniCfFormatted = yeniCf.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+            const hataFormatted = hataOran.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+            
+            yeniCfSpan.innerText = yeniCfFormatted;
+            hataOranSpan.innerText = `%${hataFormatted}`;
+            
+            sonHesaplanan = {
+                net: netTam,
+                fark: farkTam,
+                yeniCf: yeniCfFormatted,
+                hataOran: `%${hataFormatted}`
+            };
+            
+            sonGirdiler = {
+                bos: bosFormatted,
+                dolu: doluFormatted,
+                shenk: shenkFormatted,
+                eskiCf: eskiCfFormatted
+            };
+        }
+
+        function kaydet() {
+            if (!sonHesaplanan || !sonGirdiler) {
+                showMessage('Önce HESAPLA butonuna basın');
+                return;
+            }
+            
+            let isim = kayitIsim.value.trim();
+            let tarih = kayitTarih.value;
+            
+            if (!isim) {
+                showMessage('İsim giriniz');
+                return;
+            }
+            
+            if (!tarih) {
+                const today = new Date();
+                const yyyy = today.getFullYear();
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const dd = String(today.getDate()).padStart(2, '0');
+                tarih = `${yyyy}-${mm}-${dd}`;
+                kayitTarih.value = tarih;
+            }
+            
+            const tarihFormatted = tarih.split('-').reverse().join('.');
+            
+            const yeniKayit = {
+                id: Date.now(),
+                isim: isim,
+                tarih: tarihFormatted,
+                bosKamyon: sonGirdiler.bos,
+                doluKamyon: sonGirdiler.dolu,
+                shenk: sonGirdiler.shenk,
+                eskiCf: sonGirdiler.eskiCf,
+                net: sonHesaplanan.net,
+                fark: sonHesaplanan.fark,
+                yeniCf: sonHesaplanan.yeniCf,
+                hataOran: sonHesaplanan.hataOran,
+                kayitZamani: new Date().toISOString()
+            };
+            
+            kayitlar.unshift(yeniKayit);
+            saveHistory();
+            
+            kayitIsim.value = '';
+            showMessage('Kaydedildi ✓');
+        }
+
+        function temizleGecmis() {
+            if (kayitlar.length === 0) {
+                showMessage('Silinecek kayıt yok');
+                return;
+            }
+            if (confirm('Tüm geçmiş kayıtları silmek istediğinize emin misiniz?')) {
+                kayitlar = [];
+                saveHistory();
+                showMessage('Tüm kayıtlar silindi');
+            }
+        }
+
+        function temizleInputlar() {
+            bosInput.value = '';
+            doluInput.value = '';
+            shenkInput.value = '';
+            eskiCfInput.value = '';
+            netSpan.innerText = '—';
+            farkSpan.innerText = '—';
+            yeniCfSpan.innerText = '—';
+            hataOranSpan.innerText = '—';
+            sonHesaplanan = null;
+            sonGirdiler = null;
+            kayitIsim.value = '';
+        }
+
+        hesaplaBtn.addEventListener('click', hesapla);
+        resetBtn.addEventListener('click', temizleInputlar);
+        kaydetBtn.addEventListener('click', kaydet);
+        temizleGecmisBtn.addEventListener('click', temizleGecmis);
+        
+        [bosInput, doluInput, shenkInput, eskiCfInput].forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') hesapla();
+            });
+        });
+        
+        loadHistory();
+        
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        if (!kayitTarih.value) {
+            kayitTarih.value = `${yyyy}-${mm}-${dd}`;
+        }
+    })();
+</script>
+</body>
+</html>
