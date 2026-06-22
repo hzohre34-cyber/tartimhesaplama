@@ -13,7 +13,7 @@
         }
 
         body {
-            background: #eef2f5;
+            background: #0f1419;
             font-family: -apple-system, 'Segoe UI', 'Roboto', sans-serif;
             padding: 24px 16px 40px;
             min-height: 100vh;
@@ -26,23 +26,26 @@
             max-width: 580px;
             width: 100%;
             margin: 0 auto;
-            background: white;
+            background: #1a1f2e;
             border-radius: 32px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             overflow: hidden;
+            border: 1px solid #2a3040;
         }
 
         .hero {
-            background: #1e3a2f;
-            padding: 24px 20px;
+            background: linear-gradient(135deg, #1a2a1f 0%, #0d1f14 100%);
+            padding: 28px 20px;
             text-align: center;
+            border-bottom: 1px solid #2a3a2f;
         }
 
         .hero h1 {
             font-size: 1.7rem;
             font-weight: 600;
-            color: white;
+            color: #4ade80;
             letter-spacing: -0.3px;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
         }
 
         .form-container {
@@ -56,21 +59,23 @@
         .input-group label {
             font-size: 0.9rem;
             font-weight: 600;
-            color: #2c5a4a;
-            margin-bottom: 6px;
+            color: #8ba89c;
+            margin-bottom: 8px;
             display: block;
+            letter-spacing: 0.5px;
         }
 
         .input-wrapper {
-            background: #f5f7fa;
+            background: #242b3d;
             border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s;
+            border: 1px solid #2a3040;
+            transition: all 0.3s;
         }
 
         .input-wrapper:focus-within {
-            border-color: #1e6b58;
-            background: white;
+            border-color: #4ade80;
+            background: #1e2535;
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);
         }
 
         .input-wrapper input {
@@ -82,40 +87,47 @@
             background: transparent;
             outline: none;
             font-family: monospace;
-            color: #1a2e28;
+            color: #e2e8f0;
         }
 
         .input-wrapper input::placeholder {
-            color: #bdc3cc;
+            color: #556170;
             font-weight: 400;
         }
 
         .calc-btn {
             width: 100%;
-            background: #1e6b58;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             border: none;
-            padding: 15px;
+            padding: 16px;
             border-radius: 16px;
             color: white;
             font-size: 1.1rem;
             font-weight: 600;
-            margin-top: 16px;
+            margin-top: 20px;
             margin-bottom: 8px;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .calc-btn:hover {
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
+            transform: translateY(-1px);
         }
 
         .calc-btn:active {
             transform: scale(0.97);
-            background: #155744;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
         }
 
         .results {
-            background: #fafcfd;
+            background: #242b3d;
             margin: 8px 20px 20px 20px;
             border-radius: 24px;
             padding: 8px 0;
-            border: 1px solid #eef2f5;
+            border: 1px solid #2a3040;
         }
 
         .result-item {
@@ -123,7 +135,7 @@
             justify-content: space-between;
             align-items: baseline;
             padding: 16px 20px;
-            border-bottom: 1px solid #edf2f7;
+            border-bottom: 1px solid #2a3040;
         }
 
         .result-item:last-child {
@@ -133,70 +145,83 @@
         .result-label {
             font-weight: 600;
             font-size: 1rem;
-            color: #2d4a3e;
+            color: #8ba89c;
         }
 
         .result-value {
             font-weight: 700;
             font-size: 1.5rem;
             font-family: monospace;
-            color: #1f3e36;
-            background: #eef3f0;
-            padding: 4px 14px;
+            color: #4ade80;
+            background: #1a2a1f;
+            padding: 6px 16px;
             border-radius: 40px;
+            border: 1px solid #2a3a2f;
         }
 
         .save-section {
             margin: 0 20px 20px 20px;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 20px;
-            border: 1px solid #e2edf2;
+            padding: 20px;
+            background: #242b3d;
+            border-radius: 24px;
+            border: 1px solid #2a3040;
         }
 
         .save-row {
             display: flex;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
         }
 
         .save-input {
             flex: 1;
+            min-width: 120px;
         }
 
         .save-input input {
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid #dce5ec;
+            border: 1px solid #2a3040;
             border-radius: 14px;
             font-size: 0.9rem;
-            background: white;
+            background: #1a1f2e;
             outline: none;
-            transition: 0.2s;
+            transition: 0.3s;
+            color: #e2e8f0;
         }
 
         .save-input input:focus {
-            border-color: #1e6b58;
+            border-color: #4ade80;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.1);
         }
 
         .save-input input::placeholder {
-            color: #b9c3cd;
+            color: #556170;
         }
 
         .save-btn {
-            background: #2c5a4a;
+            width: 100%;
+            background: #3b82f6;
             border: none;
-            padding: 12px 20px;
+            padding: 14px;
             border-radius: 14px;
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .save-btn:hover {
+            background: #2563eb;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
         .save-btn:active {
-            transform: scale(0.96);
-            background: #1e3a2f;
+            transform: scale(0.97);
+            background: #1d4ed8;
         }
 
         .history-section {
@@ -205,36 +230,60 @@
 
         .history-title {
             font-weight: 600;
-            color: #2c5a4a;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
+            color: #8ba89c;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .clear-history {
-            background: none;
-            border: none;
-            color: #c44536;
-            font-size: 0.7rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            font-size: 0.75rem;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 6px 12px;
             border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .clear-history:hover {
+            background: rgba(239, 68, 68, 0.2);
         }
 
         .history-list {
             max-height: 320px;
             overflow-y: auto;
-            background: #fafcfd;
+            background: #242b3d;
             border-radius: 20px;
-            border: 1px solid #eef2f5;
+            border: 1px solid #2a3040;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .history-list::-webkit-scrollbar-track {
+            background: #1a1f2e;
+            border-radius: 10px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
         }
 
         .history-item {
-            padding: 14px 16px;
-            border-bottom: 1px solid #edf2f7;
-            font-size: 0.8rem;
+            padding: 16px;
+            border-bottom: 1px solid #2a3040;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            background: #2a3040;
         }
 
         .history-item:last-child {
@@ -244,31 +293,40 @@
         .history-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            align-items: center;
+            margin-bottom: 12px;
             font-weight: 600;
-            color: #1f3e36;
+            color: #e2e8f0;
         }
 
         .history-name {
-            color: #1e6b58;
+            color: #4ade80;
             font-weight: 700;
+            font-size: 0.95rem;
         }
 
         .history-date {
-            color: #8ba89c;
-            font-size: 0.7rem;
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+
+        .history-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
 
         .history-girdiler {
-            background: #f0f4f2;
-            padding: 8px 10px;
+            background: #1a1f2e;
+            padding: 10px 12px;
             border-radius: 12px;
-            margin: 8px 0;
-            font-size: 0.7rem;
+            margin: 10px 0;
+            font-size: 0.75rem;
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
-            color: #2c5a4a;
+            color: #8ba89c;
+            border: 1px solid #2a3040;
         }
 
         .history-values {
@@ -276,34 +334,65 @@
             flex-wrap: wrap;
             gap: 12px;
             font-family: monospace;
-            font-size: 0.75rem;
-            color: #4a6b5e;
-            margin-top: 6px;
+            font-size: 0.8rem;
+            color: #6ee7b7;
+            margin-top: 8px;
+            padding: 10px;
+            background: rgba(74, 222, 128, 0.05);
+            border-radius: 10px;
         }
 
         .delete-item {
-            background: none;
-            border: none;
-            color: #c44536;
-            font-size: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            font-size: 0.9rem;
             cursor: pointer;
-            padding: 0 4px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .delete-item:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .share-history-btn {
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid #25d366;
+            color: #25d366;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .share-history-btn:hover {
+            background: rgba(37, 211, 102, 0.2);
         }
 
         .reset-btn {
             background: none;
-            border: none;
+            border: 1px solid #4b5563;
             font-size: 0.8rem;
-            color: #8ba89c;
+            color: #9ca3af;
             padding: 8px 16px;
-            margin-bottom: 8px;
-            margin-left: auto;
+            margin: 0 20px 20px auto;
             display: block;
             cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #242b3d;
+            color: #e2e8f0;
         }
 
         .reset-btn:active {
-            opacity: 0.6;
+            opacity: 0.7;
         }
 
         @media (max-width: 480px) {
@@ -312,32 +401,38 @@
             }
             .result-value {
                 font-size: 1.2rem;
-                padding: 2px 12px;
+                padding: 4px 12px;
             }
             .save-row {
                 flex-direction: column;
                 gap: 8px;
             }
-            .save-btn {
+            .history-header {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .history-actions {
                 width: 100%;
+                justify-content: flex-end;
             }
         }
 
         .toast-msg {
-            background: #2c5a4a;
+            background: #3b82f6;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 40px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) scale(0.9);
             opacity: 0;
-            transition: 0.2s;
+            transition: 0.3s;
             pointer-events: none;
             z-index: 200;
             white-space: nowrap;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
         .toast-msg.show {
@@ -412,8 +507,8 @@
             <div class="save-input">
                 <input type="date" id="kayitTarih">
             </div>
-            <button class="save-btn" id="kaydetBtn">💾 KAYDET</button>
         </div>
+        <button class="save-btn" id="kaydetBtn">💾 KAYDET</button>
     </div>
 
     <div class="history-section">
@@ -422,7 +517,7 @@
             <button class="clear-history" id="temizleGecmisBtn">🗑 TÜMÜNÜ SİL</button>
         </div>
         <div class="history-list" id="gecmisListesi">
-            <div style="padding: 20px; text-align: center; color: #8ba89c;">Henüz kayıt yok</div>
+            <div style="padding: 20px; text-align: center; color: #6b7280;">Henüz kayıt yok</div>
         </div>
     </div>
 
@@ -454,7 +549,7 @@
 
         let toastTimeout = null;
         let sonHesaplanan = null;
-        let sonGirdiler = null;  // girilen değerleri de sakla
+        let sonGirdiler = null;
 
         let kayitlar = [];
 
@@ -475,15 +570,11 @@
             renderHistory();
         }
 
-        function formatNumber(num) {
-            return Math.round(num).toLocaleString();
-        }
-
         function renderHistory() {
             if (!gecmisListesi) return;
             
             if (kayitlar.length === 0) {
-                gecmisListesi.innerHTML = '<div style="padding: 20px; text-align: center; color: #8ba89c;">Henüz kayıt yok</div>';
+                gecmisListesi.innerHTML = '<div style="padding: 20px; text-align: center; color: #6b7280;">Henüz kayıt yok</div>';
                 return;
             }
             
@@ -494,9 +585,10 @@
                 return `
                     <div class="history-item">
                         <div class="history-header">
-                            <span class="history-name">${escapeHtml(item.isim) || 'İsimsiz'}</span>
-                            <div>
-                                <span class="history-date">${item.tarih || 'Tarihsiz'}</span>
+                            <span class="history-name">🚛 ${escapeHtml(item.isim) || 'İsimsiz'}</span>
+                            <div class="history-actions">
+                                <span class="history-date">📅 ${item.tarih || 'Tarihsiz'}</span>
+                                <button class="share-history-btn" data-index="${originalIndex}">📤 PAYLAŞ</button>
                                 <button class="delete-item" data-index="${originalIndex}">✕</button>
                             </div>
                         </div>
@@ -516,13 +608,24 @@
                 `;
             }).join('');
             
+            // Silme butonları
             document.querySelectorAll('.delete-item').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const index = parseInt(btn.getAttribute('data-index'));
                     if (!isNaN(index)) {
                         kayitlar.splice(index, 1);
                         saveHistory();
-                        showMessage('Kayıt silindi');
+                        showMessage('Kayıt silindi 🗑');
+                    }
+                });
+            });
+            
+            // Paylaşım butonları
+            document.querySelectorAll('.share-history-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    if (!isNaN(index)) {
+                        paylasKayit(index);
                     }
                 });
             });
@@ -544,7 +647,7 @@
             toast.classList.add('show');
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 2000);
+            }, 2500);
         }
 
         function parseNumber(value) {
@@ -562,17 +665,17 @@
             const eskiCf = parseNumber(eskiCfInput.value);
 
             if (isNaN(bos) || isNaN(dolu) || isNaN(shenk) || isNaN(eskiCf)) {
-                showMessage('Tüm alanları doldurun');
+                showMessage('❌ Tüm alanları doldurun');
                 return;
             }
 
             if (shenk === 0) {
-                showMessage('Shenk 0 olamaz');
+                showMessage('❌ Shenk 0 olamaz');
                 return;
             }
 
             if (eskiCf === 0) {
-                showMessage('Eski CF 0 olamaz');
+                showMessage('❌ Eski CF 0 olamaz');
                 return;
             }
 
@@ -585,14 +688,13 @@
             netSpan.innerText = netTam;
             farkSpan.innerText = farkTam;
 
-            // Girdileri formatlı sakla
             const bosFormatted = Math.round(bos).toLocaleString();
             const doluFormatted = Math.round(dolu).toLocaleString();
             const shenkFormatted = Math.round(shenk).toLocaleString();
             const eskiCfFormatted = eskiCf.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 6 });
 
             if (net <= 0) {
-                showMessage('Net ağırlık sıfır veya negatif');
+                showMessage('❌ Net ağırlık sıfır veya negatif');
                 yeniCfSpan.innerText = '—';
                 hataOranSpan.innerText = '—';
                 sonHesaplanan = null;
@@ -623,11 +725,67 @@
                 shenk: shenkFormatted,
                 eskiCf: eskiCfFormatted
             };
+            
+            showMessage('✅ Hesaplama tamamlandı');
+        }
+
+        function olusturPaylasimMetni(kayit) {
+            let metin = `📋 *KAMYON TARTIM SONUCU*\n`;
+            metin += `━━━━━━━━━━━━━━━\n`;
+            if (kayit.isim) metin += `🚛 *Araç:* ${kayit.isim}\n`;
+            if (kayit.tarih) metin += `📅 *Tarih:* ${kayit.tarih}\n`;
+            metin += `━━━━━━━━━━━━━━━\n`;
+            metin += `📊 *GİRİŞ DEĞERLERİ*\n`;
+            metin += `• Boş: ${kayit.bosKamyon} kg\n`;
+            metin += `• Dolu: ${kayit.doluKamyon} kg\n`;
+            metin += `• Shenk: ${kayit.shenk} kg\n`;
+            metin += `• Eski CF: ${kayit.eskiCf}\n`;
+            metin += `━━━━━━━━━━━━━━━\n`;
+            metin += `📈 *SONUÇLAR*\n`;
+            metin += `• Net: ${kayit.net} kg\n`;
+            metin += `• Fark: ${kayit.fark} kg\n`;
+            metin += `• Yeni CF: ${kayit.yeniCf}\n`;
+            metin += `• Hata Oranı: ${kayit.hataOran}\n`;
+            metin += `━━━━━━━━━━━━━━━\n`;
+            metin += `✅ Hesaplama tamamlandı`;
+            
+            return metin;
+        }
+
+        function paylasKayit(index) {
+            const kayit = kayitlar[index];
+            if (!kayit) {
+                showMessage('❌ Kayıt bulunamadı');
+                return;
+            }
+            
+            const paylasimMetni = olusturPaylasimMetni(kayit);
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(paylasimMetni).then(() => {
+                    openWhatsApp(paylasimMetni);
+                }).catch(() => {
+                    openWhatsApp(paylasimMetni);
+                });
+            } else {
+                openWhatsApp(paylasimMetni);
+            }
+        }
+
+        function openWhatsApp(metin) {
+            const encodedText = encodeURIComponent(metin);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+            
+            showMessage('📤 WhatsApp açılıyor...');
+            
+            setTimeout(() => {
+                window.open(whatsappUrl, '_blank');
+            }, 500);
         }
 
         function kaydet() {
             if (!sonHesaplanan || !sonGirdiler) {
-                showMessage('Önce HESAPLA butonuna basın');
+                showMessage('❌ Önce HESAPLA butonuna basın');
                 return;
             }
             
@@ -635,7 +793,7 @@
             let tarih = kayitTarih.value;
             
             if (!isim) {
-                showMessage('İsim giriniz');
+                showMessage('⚠️ İsim giriniz');
                 return;
             }
             
@@ -669,18 +827,18 @@
             saveHistory();
             
             kayitIsim.value = '';
-            showMessage('Kaydedildi ✓');
+            showMessage('💾 Başarıyla kaydedildi!');
         }
 
         function temizleGecmis() {
             if (kayitlar.length === 0) {
-                showMessage('Silinecek kayıt yok');
+                showMessage('📋 Silinecek kayıt yok');
                 return;
             }
             if (confirm('Tüm geçmiş kayıtları silmek istediğinize emin misiniz?')) {
                 kayitlar = [];
                 saveHistory();
-                showMessage('Tüm kayıtlar silindi');
+                showMessage('🗑 Tüm kayıtlar silindi');
             }
         }
 
@@ -696,6 +854,7 @@
             sonHesaplanan = null;
             sonGirdiler = null;
             kayitIsim.value = '';
+            showMessage('🔄 Form temizlendi');
         }
 
         hesaplaBtn.addEventListener('click', hesapla);
