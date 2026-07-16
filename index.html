@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Kamyon Tartım Hesaplama</title>
+    <title>Elektronik Bakım</title>
     <style>
         * {
             margin: 0;
@@ -13,712 +13,1284 @@
         }
 
         body {
-            background: #eef2f5;
+            background: #0f1419;
             font-family: -apple-system, 'Segoe UI', 'Roboto', sans-serif;
-            padding: 24px 16px 40px;
+            padding: 16px 12px 40px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .card {
-            max-width: 580px;
+        /* Şifre Ekranı */
+        .password-screen {
+            max-width: 400px;
             width: 100%;
             margin: 0 auto;
-            background: white;
+            background: #1a1f2e;
             border-radius: 32px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            padding: 40px 24px;
+            text-align: center;
+            border: 1px solid #2a3040;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        .password-screen .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .password-screen h2 {
+            color: #e2e8f0;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+        .password-screen p {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .password-screen input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #242b3d;
+            border: 1px solid #2a3040;
+            border-radius: 14px;
+            color: #e2e8f0;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .password-screen input:focus {
+            border-color: #4ade80;
+        }
+        .remember-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .remember-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4ade80;
+            margin: 0;
+            cursor: pointer;
+        }
+        .remember-row label {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .password-screen button {
+            width: 100%;
+            padding: 14px;
+            background: #4ade80;
+            border: none;
+            border-radius: 14px;
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .password-screen button:active {
+            opacity: 0.8;
+        }
+        .password-screen .error-msg {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Ana Kart */
+        .card {
+            max-width: 620px;
+            width: 100%;
+            margin: 0 auto;
+            background: #1a1f2e;
+            border-radius: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             overflow: hidden;
+            border: 1px solid #2a3040;
+            display: none;
         }
 
         .hero {
-            background: #1e3a2f;
+            background: linear-gradient(135deg, #1a2a1f 0%, #0d1f14 100%);
             padding: 24px 20px;
             text-align: center;
+            border-bottom: 1px solid #2a3a2f;
         }
-
         .hero h1 {
-            font-size: 1.7rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            color: white;
-            letter-spacing: -0.3px;
+            color: #4ade80;
+        }
+        .hero .subtitle {
+            color: #6b7280;
+            font-size: 0.75rem;
+            margin-top: 4px;
         }
 
-        .form-container {
-            padding: 24px 20px 16px;
+        /* Menü Konteyner */
+        .menu-container {
+            padding: 12px 16px;
         }
 
+        .menu-item {
+            margin-bottom: 8px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #2a3040;
+            background: #242b3d;
+        }
+
+        .menu-header {
+            padding: 16px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .menu-header:active {
+            background: #2a3040;
+        }
+        .menu-header .menu-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .menu-header .menu-icon {
+            font-size: 1.2rem;
+        }
+        .menu-header .arrow {
+            color: #6b7280;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .menu-item.open .menu-header .arrow {
+            transform: rotate(180deg);
+            color: #4ade80;
+        }
+
+        .menu-body {
+            max-height: 0;
+            overflow-y: auto;
+            transition: max-height 0.4s ease;
+            background: #1a1f2e;
+        }
+        .menu-item.open .menu-body {
+            max-height: 600px;
+        }
+        .menu-body-inner {
+            padding: 8px 18px 16px 18px;
+        }
+
+        /* Hesaplama İçi */
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 12px;
         }
-
         .input-group label {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            color: #2c5a4a;
-            margin-bottom: 6px;
+            color: #8ba89c;
+            margin-bottom: 5px;
             display: block;
         }
-
         .input-wrapper {
-            background: #f5f7fa;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s;
+            background: #242b3d;
+            border-radius: 12px;
+            border: 1px solid #2a3040;
         }
-
-        .input-wrapper:focus-within {
-            border-color: #1e6b58;
-            background: white;
-        }
-
         .input-wrapper input {
             width: 100%;
-            padding: 14px 16px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            padding: 12px 14px;
+            font-size: 1rem;
             border: none;
             background: transparent;
             outline: none;
             font-family: monospace;
-            color: #1a2e28;
+            color: #e2e8f0;
         }
-
-        .input-wrapper input::placeholder {
-            color: #bdc3cc;
-            font-weight: 400;
+        .input-wrapper:focus-within {
+            border-color: #4ade80;
         }
-
         .calc-btn {
             width: 100%;
-            background: #1e6b58;
+            background: #4ade80;
             border: none;
-            padding: 15px;
-            border-radius: 16px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-top: 16px;
-            margin-bottom: 8px;
+            padding: 13px;
+            border-radius: 12px;
+            color: #000;
+            font-weight: 700;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: 0.2s;
+            margin-top: 8px;
         }
-
         .calc-btn:active {
-            transform: scale(0.97);
-            background: #155744;
+            opacity: 0.8;
         }
 
         .results {
-            background: #fafcfd;
-            margin: 8px 20px 20px 20px;
-            border-radius: 24px;
-            padding: 8px 0;
-            border: 1px solid #eef2f5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
         }
-
         .result-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            padding: 16px 20px;
-            border-bottom: 1px solid #edf2f7;
+            background: #242b3d;
+            padding: 10px 14px;
+            border-radius: 12px;
+            text-align: center;
         }
-
-        .result-item:last-child {
-            border-bottom: none;
-        }
-
         .result-label {
-            font-weight: 600;
-            font-size: 1rem;
-            color: #2d4a3e;
+            font-size: 0.7rem;
+            color: #6b7280;
+            margin-bottom: 4px;
         }
-
         .result-value {
+            font-size: 1.1rem;
             font-weight: 700;
-            font-size: 1.5rem;
+            color: #4ade80;
             font-family: monospace;
-            color: #1f3e36;
-            background: #eef3f0;
-            padding: 4px 14px;
-            border-radius: 40px;
-        }
-
-        .save-section {
-            margin: 0 20px 20px 20px;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 20px;
-            border: 1px solid #e2edf2;
         }
 
         .save-row {
             display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
         }
-
         .save-input {
             flex: 1;
+            min-width: 100px;
         }
-
         .save-input input {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #dce5ec;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            background: white;
+            padding: 10px 12px;
+            background: #242b3d;
+            border: 1px solid #2a3040;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 0.8rem;
             outline: none;
-            transition: 0.2s;
         }
-
         .save-input input:focus {
-            border-color: #1e6b58;
+            border-color: #4ade80;
         }
-
-        .save-input input::placeholder {
-            color: #b9c3cd;
-        }
-
         .save-btn {
-            background: #2c5a4a;
+            padding: 10px 18px;
+            background: #3b82f6;
             border: none;
-            padding: 12px 20px;
-            border-radius: 14px;
-            color: white;
+            border-radius: 10px;
+            color: #fff;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.2s;
+            font-size: 0.85rem;
         }
-
         .save-btn:active {
-            transform: scale(0.96);
-            background: #1e3a2f;
-        }
-
-        .history-section {
-            margin: 0 20px 24px 20px;
-        }
-
-        .history-title {
-            font-weight: 600;
-            color: #2c5a4a;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .clear-history {
-            background: none;
-            border: none;
-            color: #c44536;
-            font-size: 0.7rem;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 20px;
+            opacity: 0.8;
         }
 
         .history-list {
-            max-height: 320px;
+            margin-top: 12px;
+            max-height: 300px;
             overflow-y: auto;
-            background: #fafcfd;
-            border-radius: 20px;
-            border: 1px solid #eef2f5;
         }
-
         .history-item {
-            padding: 14px 16px;
-            border-bottom: 1px solid #edf2f7;
-            font-size: 0.8rem;
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-header {
+            background: #242b3d;
+            padding: 10px 12px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            color: #9ca3af;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #1f3e36;
-        }
-
-        .history-name {
-            color: #1e6b58;
-            font-weight: 700;
-        }
-
-        .history-date {
-            color: #8ba89c;
-            font-size: 0.7rem;
-        }
-
-        .history-girdiler {
-            background: #f0f4f2;
-            padding: 8px 10px;
-            border-radius: 12px;
-            margin: 8px 0;
-            font-size: 0.7rem;
-            display: flex;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
-            color: #2c5a4a;
+            gap: 6px;
         }
-
-        .history-values {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: #4a6b5e;
-            margin-top: 6px;
+        .history-info {
+            flex: 1;
+            min-width: 200px;
+            line-height: 1.6;
         }
-
-        .delete-item {
-            background: none;
-            border: none;
-            color: #c44536;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 0 4px;
-        }
-
-        .reset-btn {
-            background: none;
-            border: none;
-            font-size: 0.8rem;
-            color: #8ba89c;
-            padding: 8px 16px;
-            margin-bottom: 8px;
-            margin-left: auto;
+        .history-info strong {
+            color: #4ade80;
             display: block;
+            font-size: 0.85rem;
+        }
+        .history-info .detail-row {
+            color: #9ca3af;
+        }
+        .history-info .detail-row span {
+            color: #4ade80;
+            font-weight: 600;
+        }
+        .history-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .share-mini-btn {
+            background: rgba(37, 211, 102, 0.15);
+            border: 1px solid #25d366;
+            color: #25d366;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
             cursor: pointer;
         }
-
-        .reset-btn:active {
-            opacity: 0.6;
+        .delete-mini-btn {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+        .clear-history-btn {
+            background: none;
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 8px;
+            float: right;
         }
 
-        @media (max-width: 480px) {
-            body {
-                padding: 16px 12px;
-            }
-            .result-value {
-                font-size: 1.2rem;
-                padding: 2px 12px;
-            }
-            .save-row {
-                flex-direction: column;
-                gap: 8px;
-            }
-            .save-btn {
-                width: 100%;
-            }
+        /* Liste Tablo */
+        .info-table {
+            width: 100%;
+            font-size: 0.78rem;
+            color: #9ca3af;
+            border-collapse: collapse;
+        }
+        .info-table td {
+            padding: 6px 4px;
+            border-bottom: 1px solid #2a3040;
+        }
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+        .info-table .code {
+            color: #e2e8f0;
+            font-family: monospace;
+            font-weight: 500;
+        }
+        .info-table .warn {
+            color: #fbbf24;
+        }
+        .info-table .danger {
+            color: #ef4444;
+        }
+        .info-table .value-right {
+            text-align: right;
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .group-title {
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin: 12px 0 6px 0;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #2a3040;
+        }
+        .group-title:first-child {
+            margin-top: 0;
+        }
+
+        /* İstinad Rölesi Tablosu */
+        .relay-table {
+            width: 100%;
+            font-size: 0.78rem;
+            color: #9ca3af;
+            border-collapse: collapse;
+        }
+        .relay-table th {
+            color: #4ade80;
+            font-weight: 700;
+            padding: 8px 6px;
+            text-align: left;
+            border-bottom: 2px solid #2a3040;
+            font-size: 0.8rem;
+        }
+        .relay-table td {
+            padding: 6px 6px;
+            border-bottom: 1px solid #2a3040;
+        }
+        .relay-table tr:last-child td {
+            border-bottom: none;
+        }
+        .relay-table .param-name {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+        .relay-table .new-val {
+            color: #4ade80;
+            text-align: center;
+        }
+        .relay-table .old-val {
+            color: #fbbf24;
+            text-align: center;
+        }
+        .relay-table .section-title td {
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding-top: 12px;
+            border-bottom: 1px solid #2a3040;
+        }
+        .relay-table .section-title:first-child td {
+            padding-top: 0;
+        }
+
+        /* Talimat */
+        .talimat-step {
+            margin-bottom: 10px;
+            padding: 10px 12px;
+            background: #242b3d;
+            border-radius: 10px;
+        }
+        .talimat-step .step-title {
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+        .talimat-step ul {
+            list-style: none;
+            padding: 0;
+        }
+        .talimat-step ul li {
+            color: #9ca3af;
+            font-size: 0.78rem;
+            padding: 2px 0;
+        }
+        .talimat-step ul li::before {
+            content: "• ";
+            color: #6b7280;
+        }
+        .highlight {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid #4b5563;
+            color: #9ca3af;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin: 12px 16px 20px;
+            display: block;
+        }
+        .logout-btn:active {
+            background: #2a3040;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 16px 20px 20px;
+            border-top: 1px solid #2a3040;
+            color: #4b5563;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+        .footer .creator {
+            color: #4ade80;
+            font-weight: 600;
         }
 
         .toast-msg {
-            background: #2c5a4a;
-            color: white;
-            padding: 10px 20px;
+            background: #3b82f6;
+            color: #fff;
+            padding: 12px 24px;
             border-radius: 40px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) scale(0.9);
             opacity: 0;
-            transition: 0.2s;
+            transition: 0.3s;
             pointer-events: none;
             z-index: 200;
             white-space: nowrap;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
-
         .toast-msg.show {
             opacity: 1;
             transform: translateX(-50%) scale(1);
+        }
+
+        /* Onay Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-box {
+            background: #1a1f2e;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid #2a3040;
+            max-width: 320px;
+            width: 90%;
+        }
+        .modal-box p {
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .modal-buttons button {
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .modal-yes {
+            background: #ef4444;
+            color: #fff;
+        }
+        .modal-no {
+            background: #374151;
+            color: #fff;
+        }
+
+        @media (max-width: 480px) {
+            .results {
+                grid-template-columns: 1fr 1fr;
+            }
+            .save-row {
+                flex-direction: column;
+            }
+            .relay-table {
+                font-size: 0.7rem;
+            }
+            .history-info {
+                min-width: 150px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div class="hero">
-        <h1>⚖️ KAMYON TARTIM</h1>
+<!-- Şifre Ekranı -->
+<div class="password-screen" id="passwordScreen">
+    <div class="lock-icon">🔐</div>
+    <h2>Giriş Yapın</h2>
+    <p>Devam etmek için şifreyi girin</p>
+    <input type="password" id="passwordInput" placeholder="Şifre" autofocus>
+    <div class="remember-row">
+        <input type="checkbox" id="rememberMe">
+        <label for="rememberMe">Beni Hatırla</label>
     </div>
-
-    <div class="form-container">
-        <div class="input-group">
-            <label>KAMYON BOŞ</label>
-            <div class="input-wrapper">
-                <input type="number" id="bosKamyon" placeholder="0" step="any">
-            </div>
-        </div>
-
-        <div class="input-group">
-            <label>KAMYON DOLU</label>
-            <div class="input-wrapper">
-                <input type="number" id="doluKamyon" placeholder="0" step="any">
-            </div>
-        </div>
-
-        <div class="input-group">
-            <label>SHENK</label>
-            <div class="input-wrapper">
-                <input type="number" id="shenk" placeholder="0" step="any">
-            </div>
-        </div>
-
-        <div class="input-group">
-            <label>ESKİ CF</label>
-            <div class="input-wrapper">
-                <input type="number" id="eskiCf" placeholder="1.000" step="any">
-            </div>
-        </div>
-
-        <button class="calc-btn" id="hesaplaBtn">HESAPLA</button>
-    </div>
-
-    <div class="results">
-        <div class="result-item">
-            <span class="result-label">NET</span>
-            <span class="result-value" id="netDeger">—</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">FARK</span>
-            <span class="result-value" id="farkDeger">—</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">YENİ CF</span>
-            <span class="result-value" id="yeniCfDeger">—</span>
-        </div>
-        <div class="result-item">
-            <span class="result-label">HATA ORANI</span>
-            <span class="result-value" id="hataOranDeger">—</span>
-        </div>
-    </div>
-
-    <div class="save-section">
-        <div class="save-row">
-            <div class="save-input">
-                <input type="text" id="kayitIsim" placeholder="İsim / Plaka / Not">
-            </div>
-            <div class="save-input">
-                <input type="date" id="kayitTarih">
-            </div>
-            <button class="save-btn" id="kaydetBtn">💾 KAYDET</button>
-        </div>
-    </div>
-
-    <div class="history-section">
-        <div class="history-title">
-            <span>📋 GEÇMİŞ HESAPLAR</span>
-            <button class="clear-history" id="temizleGecmisBtn">🗑 TÜMÜNÜ SİL</button>
-        </div>
-        <div class="history-list" id="gecmisListesi">
-            <div style="padding: 20px; text-align: center; color: #8ba89c;">Henüz kayıt yok</div>
-        </div>
-    </div>
-
-    <button class="reset-btn" id="resetBtn">TEMİZLE</button>
+    <button id="loginBtn">GİRİŞ YAP</button>
+    <p class="error-msg" id="loginError">⚠️ Hatalı şifre!</p>
 </div>
 
+<!-- Ana Kart -->
+<div class="card" id="mainCard">
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>⚙️ ELEKTRONİK BAKIM</h1>
+        <div class="subtitle">Shenk Hesaplama & Bilgi Sistemi</div>
+    </div>
+
+    <!-- Menüler -->
+    <div class="menu-container">
+
+        <!-- 1. Shenk Hesaplama -->
+        <div class="menu-item" id="menuHesaplama">
+            <div class="menu-header" onclick="toggleMenu('menuHesaplama')">
+                <span class="menu-title"><span class="menu-icon">🧮</span> Shenk Hesaplama</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <div class="input-group"><label>Kamyon Boş</label><div class="input-wrapper"><input type="number" id="bosKamyon" placeholder="0" step="any"></div></div>
+                    <div class="input-group"><label>Kamyon Dolu</label><div class="input-wrapper"><input type="number" id="doluKamyon" placeholder="0" step="any"></div></div>
+                    <div class="input-group"><label>Shenk</label><div class="input-wrapper"><input type="number" id="shenk" placeholder="0" step="any"></div></div>
+                    <div class="input-group"><label>Eski CF</label><div class="input-wrapper"><input type="number" id="eskiCf" placeholder="1.000" step="any"></div></div>
+                    <button class="calc-btn" id="hesaplaBtn">HESAPLA</button>
+                    <div class="results">
+                        <div class="result-item"><div class="result-label">NET</div><div class="result-value" id="netDeger">—</div></div>
+                        <div class="result-item"><div class="result-label">FARK</div><div class="result-value" id="farkDeger">—</div></div>
+                        <div class="result-item"><div class="result-label">YENİ CF</div><div class="result-value" id="yeniCfDeger">—</div></div>
+                        <div class="result-item"><div class="result-label">HATA ORANI</div><div class="result-value" id="hataOranDeger">—</div></div>
+                    </div>
+                    <div class="save-row">
+                        <div class="save-input"><input type="text" id="kayitIsim" placeholder="İsim / Plaka"></div>
+                        <div class="save-input"><input type="date" id="kayitTarih"></div>
+                        <button class="save-btn" id="kaydetBtn">💾 KAYDET</button>
+                    </div>
+                    <div style="overflow:hidden;">
+                        <button class="clear-history-btn" id="temizleGecmisBtn">🗑 Tüm Kayıtları Sil</button>
+                    </div>
+                    <div class="history-list" id="gecmisListesi">
+                        <div style="padding:12px;text-align:center;color:#6b7280;font-size:0.8rem;">Henüz kayıt yok</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Shenk Kantar Kapasiteleri -->
+        <div class="menu-item" id="menuKapasite">
+            <div class="menu-header" onclick="toggleMenu('menuKapasite')">
+                <span class="menu-title"><span class="menu-icon">📊</span> Shenk Kantar Kapasiteleri</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <div class="group-title">🔹 Farin Grubu</div>
+                    <table class="info-table">
+                        <tr><td>Premix</td><td class="value-right">300 ton/saat</td></tr>
+                        <tr><td>Kil</td><td class="value-right">150 ton/saat</td></tr>
+                        <tr><td>Kalker</td><td class="value-right">40 ton/saat</td></tr>
+                        <tr><td>Demir Cürufu</td><td class="value-right">40 ton/saat</td></tr>
+                    </table>
+                    <div class="group-title">🔹 Kömür Grubu</div>
+                    <table class="info-table">
+                        <tr><td>Kömür 1</td><td class="value-right">30 ton/saat</td></tr>
+                        <tr><td>Kömür 2</td><td class="value-right">30 ton/saat</td></tr>
+                        <tr><td>Kömür 3</td><td class="value-right">30 ton/saat</td></tr>
+                    </table>
+                    <div class="group-title">🔹 Çimento Grubu</div>
+                    <table class="info-table">
+                        <tr><td>Klinker</td><td class="value-right">100 ton/saat</td></tr>
+                        <tr><td>Alçı</td><td class="value-right">30 ton/saat</td></tr>
+                        <tr><td>Kalker</td><td class="value-right">30 ton/saat</td></tr>
+                        <tr><td>Tras</td><td class="value-right">30 ton/saat</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Tartım Alma Talimatları -->
+        <div class="menu-item" id="menuTalimat">
+            <div class="menu-header" onclick="toggleMenu('menuTalimat')">
+                <span class="menu-title"><span class="menu-icon">📋</span> Tartım Alma Talimatları</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <div class="talimat-step">
+                        <div class="step-title">🚛 Kamyon Tartımı</div>
+                        <ul>
+                            <li>Cihaz şifre: <span class="highlight">7353</span></li>
+                            <li><span class="highlight">Keyboard Mod On</span></li>
+                            <li>Home'dan <span class="highlight">SetPoint</span> ayarlanacak</li>
+                            <li>Value > Total <span class="highlight">reset01 reset02</span></li>
+                            <li>Tartım Başlat (sol alttan <span class="highlight">ON/OFF</span>)</li>
+                        </ul>
+                    </div>
+                    <div class="talimat-step">
+                        <div class="step-title">⚖️ Dara Span Alma</div>
+                        <ul>
+                            <li>Cihaz şifre: <span class="highlight">7353</span></li>
+                            <li><span class="highlight">Keyboard Mod ON</span></li>
+                            <li>Mode <span class="highlight">Volum</span> alınacak</li>
+                            <li><span class="highlight">CF 1</span>'e çekilecek</li>
+                            <li>Home'dan <span class="highlight">SetPoint</span> ayarlanacak</li>
+                            <li>Setup > <span class="highlight">Kalibrasyon</span></li>
+                            <li>Dara alınacak > Ağırlıklarla <span class="highlight">Span</span> > Dara alınacak (Fotoğraf alınacak)</li>
+                            <li><span class="highlight">Save</span> yapılacak</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Mekanik Klapeler -->
+        <div class="menu-item" id="menuKlape">
+            <div class="menu-header" onclick="toggleMenu('menuKlape')">
+                <span class="menu-title"><span class="menu-icon">🔧</span> Mekanik Klapeler</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <table class="info-table">
+                        <tr><td class="code">351MKO1M01</td><td>Farin değirmeni filtresi taze hava klapesi</td></tr>
+                        <tr><td class="code">351MKO3M01</td><td>Soğutma kulesi, Çıkış klapesi</td></tr>
+                        <tr><td class="code">351MKO5M01</td><td>Değirmen giriş Shut-off klapesi</td></tr>
+                        <tr><td class="code">341MKO8M01</td><td>Ürün filtresi giriş klapesi</td></tr>
+                        <tr><td class="code">341MKO7M01</td><td>Değirmen Sirkülasyon Fan klapesi</td></tr>
+                        <tr><td class="code">341MKO4M01</td><td>Değirmen Sirkülasyon Klapesi</td></tr>
+                        <tr><td class="code">351MKO2M01</td><td>Gaz soğutma kulesi giriş klapesi</td></tr>
+                        <tr><td class="code">341MKO1M01</td><td>Farin değirmeni sıcak gaz giriş klapesi</td></tr>
+                        <tr><td class="code">341MKO3M01</td><td>Farin değirmeni giriş taze hava klapesi</td></tr>
+                        <tr><td class="code">341MKO1M01</td><td>Sıcak gaz klapesi</td></tr>
+                        <tr><td class="code">421MKO3M01</td><td>ID Fan Öncesi klape</td></tr>
+                        <tr><td class="code">421MKO2M01</td><td>Taze hava klapesi</td></tr>
+                        <tr><td class="code">411PS02M01</td><td>Fora boşaltım klapesi 2</td></tr>
+                        <tr><td class="code">411PS01M01</td><td>Fora boşaltım klapesi 1</td></tr>
+                        <tr><td class="code">451MKO2M01</td><td>Torbalı filtre taze hava klapesi</td></tr>
+                        <tr><td class="code">741MKO3M01</td><td>Baca klapesi</td></tr>
+                        <tr><td class="code">741MKO6M01</td><td>Acil kapama klapesi değirmen çıkış</td></tr>
+                        <tr><td class="code">741MKO4M01</td><td>Değirmen Gaz sirkülasyon klapesi</td></tr>
+                        <tr><td class="code">741MKO5M01</td><td>Acil kapatma klapesi değirmen giriş</td></tr>
+                        <tr><td class="code">741MKO2M01</td><td>Değirmen Sıcak gaz giriş klapesi</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Otomasyon Kilit Listesi -->
+        <div class="menu-item" id="menuKilit">
+            <div class="menu-header" onclick="toggleMenu('menuKilit')">
+                <span class="menu-title"><span class="menu-icon">🔒</span> Otomasyon Kilit Listesi</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <table class="info-table">
+                        <tr><td class="code">421SN01 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN01 PZ2</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN01 TZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN01 TZ2</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN02 TZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN02 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN03 TZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN03 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN04 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN04 PZ2</td><td class="warn">Aynı Anda "0" olursa kilit verir</td></tr>
+                        <tr><td class="code">421SN04 PZ3</td><td class="warn">Aynı Anda "0" olursa kilit verir</td></tr>
+                        <tr><td class="code">421SN04 TZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN05 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN05 PZ2</td><td class="warn">Aynı Anda "0" olursa kilit verir</td></tr>
+                        <tr><td class="code">421SN05 PZ3</td><td class="warn">Aynı Anda "0" olursa kilit verir</td></tr>
+                        <tr><td class="code">421SN05 TZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN06 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN06 PZ2</td><td class="warn">Aynı Anda "0" olursa kilit verir</td></tr>
+                        <tr><td class="code">421SN06 PZ3</td><td class="warn">Aynı Anda "0" olursa kilit verir</td></tr>
+                        <tr><td class="code">421SN06 PZ4</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421SN06 TZ1</td><td class="warn">HH' da Kilit verir</td></tr>
+                        <tr><td class="code">421SN06 TZ2</td><td class="warn">HH' da Kilit verir</td></tr>
+                        <tr><td class="code">421SN06 TZ3</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421TD01 TZ1</td><td class="warn">HH' da Kilit verir</td></tr>
+                        <tr><td class="code">421TD01 TZ2</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421TD01 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421KA01 PZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421KA01 PZ2</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421KA01 TZ1</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421KA01 TZ2</td><td class="warn">HH' da Kilit verir</td></tr>
+                        <tr><td class="code">421KA01 TZ3</td><td class="warn">HH' da Kilit verir</td></tr>
+                        <tr><td class="code">421FN01 PZ2</td><td class="danger">Kilidi VAR</td></tr>
+                        <tr><td class="code">421FN01 PZ3</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421FN01 TZ1</td><td class="danger">Kilidi VAR</td></tr>
+                        <tr><td class="code">421FN01 TZ2</td><td class="danger">Kilidi VAR</td></tr>
+                        <tr><td class="code">421FN01 TZ3</td><td>Kilidi YOK</td></tr>
+                        <tr><td class="code">421FN01 TZ4</td><td>Kilidi YOK</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Ön Isıtıcı Sensörler -->
+        <div class="menu-item" id="menuSensor">
+            <div class="menu-header" onclick="toggleMenu('menuSensor')">
+                <span class="menu-title"><span class="menu-icon">🌡️</span> Ön Isıtıcı Sensörler</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <div class="group-title">📊 Basınç Sensörleri</div>
+                    <table class="info-table">
+                        <tr><td class="code">421SN01 PZR</td><td>Kat 9</td></tr>
+                        <tr><td class="code">421SN01 PZL</td><td>Kat 9</td></tr>
+                        <tr><td class="code">421SN02 PZ1</td><td>Kat 8</td></tr>
+                        <tr><td class="code">421SN03 PZ1</td><td>Kat 7</td></tr>
+                        <tr><td class="code">421KA01 PZ1</td><td>Kat 6</td></tr>
+                        <tr><td class="code">421SN06 PZ4</td><td>Kat 6</td></tr>
+                        <tr><td class="code">421SN04 PZ1</td><td>Kat 6</td></tr>
+                        <tr><td class="code">421SN05 PZ1</td><td>Kat 5</td></tr>
+                        <tr><td class="code">421SN04 PZ2</td><td>Kat 5</td></tr>
+                        <tr><td class="code">421SN04 PZ3</td><td>Kat 5</td></tr>
+                        <tr><td class="code">421SN06 PZ1</td><td>Kat 4</td></tr>
+                        <tr><td class="code">421SN05 PZ3</td><td>Kat 4</td></tr>
+                        <tr><td class="code">421SN05 PZ2</td><td>Kat 4</td></tr>
+                        <tr><td class="code">421SN06 PZ3</td><td>Kat 3</td></tr>
+                        <tr><td class="code">421SN06 PZ2</td><td>Kat 3</td></tr>
+                        <tr><td class="code">421KA01 PZ2</td><td>Kat 3</td></tr>
+                        <tr><td class="code">421FN01 PZ3</td><td>Kat 3</td></tr>
+                        <tr><td class="code">421TD01 PZ1</td><td>Kat 2</td></tr>
+                        <tr><td class="code">421IK01 PZ1</td><td>İntikal</td></tr>
+                    </table>
+                    <div class="group-title">🌡️ Sıcaklık Sensörleri</div>
+                    <table class="info-table">
+                        <tr><td class="code">421SN01 TZR</td><td>Kat 9</td></tr>
+                        <tr><td class="code">421SN01 TZL</td><td>Kat 9</td></tr>
+                        <tr><td class="code">421SN02 TZ1</td><td>Kat 8</td></tr>
+                        <tr><td class="code">421SN03 TZ1</td><td>Kat 7</td></tr>
+                        <tr><td class="code">421KA01 TZ1</td><td>Kat 6</td></tr>
+                        <tr><td class="code">421SN06 T22</td><td>Kat 6</td></tr>
+                        <tr><td class="code">421SN04 TZ1</td><td>Kat 6</td></tr>
+                        <tr><td class="code">421SN05 TZ1</td><td>Kat 5</td></tr>
+                        <tr><td class="code">421SN06 TZ1</td><td>Kat 4</td></tr>
+                        <tr><td class="code">421KA01 TZ2</td><td>Kat 4</td></tr>
+                        <tr><td class="code">421FN01 TZ4</td><td>Kat 3</td></tr>
+                        <tr><td class="code">421TD01 TZ4</td><td>Kat 2</td></tr>
+                        <tr><td class="code">421SN06 TZ3</td><td>Kat 2</td></tr>
+                        <tr><td class="code">421IK01 TZ3</td><td>Kat 2</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. İstinad Rölesi Parametreleri -->
+        <div class="menu-item" id="menuRöle">
+            <div class="menu-header" onclick="toggleMenu('menuRöle')">
+                <span class="menu-title"><span class="menu-icon">⚡</span> İstinad Rölesi Parametreleri</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+                    <table class="relay-table">
+                        <thead>
+                            <tr>
+                                <th>Parametre</th>
+                                <th style="text-align:center;color:#4ade80;">NEW</th>
+                                <th style="text-align:center;color:#fbbf24;">OLD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="section-title"><td colspan="3">Grease Pump</td></tr>
+                            <tr><td class="param-name">Working Time</td><td class="new-val">&gt; 60s</td><td class="old-val">&gt; 60s</td></tr>
+                            <tr><td class="param-name">Pulse Time</td><td class="new-val">&gt; 60s</td><td class="old-val">&gt; 120s</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Pulse Time Upward</td></tr>
+                            <tr><td class="param-name">Working Time</td><td class="new-val">&gt; 120s</td><td class="old-val">&gt; 15s</td></tr>
+                            <tr><td class="param-name">Pulse Time</td><td class="new-val">&gt; 240s</td><td class="old-val">&gt; 500s</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Pulse Time Downward</td></tr>
+                            <tr><td class="param-name">Working Time</td><td class="new-val">&gt; 120s</td><td class="old-val">&gt; 5s</td></tr>
+                            <tr><td class="param-name">Pulse Time</td><td class="new-val">&gt; 240s</td><td class="old-val">&gt; 600s</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Pulse Time Release Pressure</td></tr>
+                            <tr><td class="param-name">Working Time</td><td class="new-val">&gt; 50s</td><td class="old-val">&gt; 10s</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Upper Limit</td></tr>
+                            <tr><td class="param-name">Return Limit</td><td class="new-val">&gt; 25mm</td><td class="old-val">&gt; 25mm</td></tr>
+                            <tr><td class="param-name">Alarm Limit</td><td class="new-val">&gt; 30mm</td><td class="old-val">&gt; 30mm</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Lower Limit</td></tr>
+                            <tr><td class="param-name">Return Limit</td><td class="new-val">&gt; -25mm</td><td class="old-val">&gt; -25mm</td></tr>
+                            <tr><td class="param-name">Alarm Limit</td><td class="new-val">&gt; -30mm</td><td class="old-val">&gt; -30mm</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Average Function Position Measurement</td></tr>
+                            <tr><td class="param-name">Value</td><td class="new-val">&gt; 30</td><td class="old-val">&gt; 30</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Delay Time Limit Faults</td></tr>
+                            <tr><td class="param-name">Value</td><td class="new-val">&gt; 3600s</td><td class="old-val">&gt; 1200s</td></tr>
+
+                            <tr class="section-title"><td colspan="3">Delay Time Duration Fault</td></tr>
+                            <tr><td class="param-name">Value</td><td class="new-val">&gt; 6h</td><td class="old-val">&gt; 6h 0m</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="logout-btn" id="logoutBtn">🔓 Çıkış Yap</button>
+
+    <!-- Footer -->
+    <div class="footer">
+        <span class="creator">👨‍💻 Yapımcı: Hüseyin Zöhre</span>
+        <span style="display:block;margin-top:4px;color:#4b5563;font-size:0.65rem;">Elektronik Bakım & Shenk Sistemi</span>
+    </div>
+</div>
+
+<!-- Toast -->
 <div id="toastMsg" class="toast-msg"></div>
 
+<!-- Onay Modal -->
+<div class="modal-overlay" id="confirmModal" style="display:none;">
+    <div class="modal-box">
+        <p id="confirmText">Emin misiniz?</p>
+        <div class="modal-buttons">
+            <button class="modal-yes" id="confirmYes">Evet</button>
+            <button class="modal-no" id="confirmNo">Hayır</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    (function() {
-        const bosInput = document.getElementById('bosKamyon');
-        const doluInput = document.getElementById('doluKamyon');
-        const shenkInput = document.getElementById('shenk');
-        const eskiCfInput = document.getElementById('eskiCf');
-        const hesaplaBtn = document.getElementById('hesaplaBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const kaydetBtn = document.getElementById('kaydetBtn');
-        const temizleGecmisBtn = document.getElementById('temizleGecmisBtn');
-        const kayitIsim = document.getElementById('kayitIsim');
-        const kayitTarih = document.getElementById('kayitTarih');
+(function() {
+    const PASSWORD_HASH = '7b9586a962849937d21ca23e3b0f851f06af906c';
 
-        const netSpan = document.getElementById('netDeger');
-        const farkSpan = document.getElementById('farkDeger');
-        const yeniCfSpan = document.getElementById('yeniCfDeger');
-        const hataOranSpan = document.getElementById('hataOranDeger');
+    const passwordScreen = document.getElementById('passwordScreen');
+    const mainCard = document.getElementById('mainCard');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const rememberCheck = document.getElementById('rememberMe');
 
-        const toast = document.getElementById('toastMsg');
-        const gecmisListesi = document.getElementById('gecmisListesi');
+    const toast = document.getElementById('toastMsg');
+    let toastTimeout = null;
 
-        let toastTimeout = null;
-        let sonHesaplanan = null;
-        let sonGirdiler = null;  // girilen değerleri de sakla
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmText = document.getElementById('confirmText');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+    let confirmCallback = null;
 
-        let kayitlar = [];
+    // SHA1
+    async function sha1(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-1', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
-        function loadHistory() {
-            const stored = localStorage.getItem('kamyonHesaplari');
-            if (stored) {
-                try {
-                    kayitlar = JSON.parse(stored);
-                } catch(e) { kayitlar = []; }
+    // Toast
+    function showMessage(msg) {
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toast.textContent = msg;
+        toast.classList.add('show');
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // Onay Modal
+    function showConfirm(text, callback) {
+        confirmText.textContent = text;
+        confirmCallback = callback;
+        confirmModal.style.display = 'flex';
+    }
+    function hideConfirm() {
+        confirmModal.style.display = 'none';
+        confirmCallback = null;
+    }
+    confirmYes.addEventListener('click', () => {
+        if (confirmCallback) confirmCallback();
+        hideConfirm();
+    });
+    confirmNo.addEventListener('click', hideConfirm);
+
+    // Giriş
+    async function login() {
+        const input = passwordInput.value;
+        const hash = await sha1(input);
+        if (hash === PASSWORD_HASH) {
+            if (rememberCheck.checked) {
+                localStorage.setItem('shenkRemember', 'true');
             } else {
-                kayitlar = [];
+                localStorage.removeItem('shenkRemember');
             }
-            renderHistory();
+            passwordScreen.style.display = 'none';
+            mainCard.style.display = 'block';
+            showMessage('✅ Giriş başarılı');
+        } else {
+            loginError.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
         }
+    }
 
-        function saveHistory() {
-            localStorage.setItem('kamyonHesaplari', JSON.stringify(kayitlar));
-            renderHistory();
+    loginBtn.addEventListener('click', login);
+    passwordInput.addEventListener('keypress', async (e) => {
+        if (e.key === 'Enter') login();
+    });
+
+    // Beni Hatırla kontrolü
+    function checkRemember() {
+        if (localStorage.getItem('shenkRemember') === 'true') {
+            rememberCheck.checked = true;
+            passwordScreen.style.display = 'none';
+            mainCard.style.display = 'block';
+            showMessage('✅ Otomatik giriş yapıldı');
         }
+    }
 
-        function formatNumber(num) {
-            return Math.round(num).toLocaleString();
+    // Çıkış
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('shenkRemember');
+        mainCard.style.display = 'none';
+        passwordScreen.style.display = 'block';
+        passwordInput.value = '';
+        loginError.style.display = 'none';
+        rememberCheck.checked = false;
+        showMessage('🔓 Çıkış yapıldı');
+    });
+
+    // Menü toggle
+    window.toggleMenu = function(id) {
+        const item = document.getElementById(id);
+        if (item) item.classList.toggle('open');
+    };
+
+    // Hesaplama
+    const bosInput = document.getElementById('bosKamyon');
+    const doluInput = document.getElementById('doluKamyon');
+    const shenkInput = document.getElementById('shenk');
+    const eskiCfInput = document.getElementById('eskiCf');
+    const hesaplaBtn = document.getElementById('hesaplaBtn');
+    const kaydetBtn = document.getElementById('kaydetBtn');
+    const temizleGecmisBtn = document.getElementById('temizleGecmisBtn');
+    const kayitIsim = document.getElementById('kayitIsim');
+    const kayitTarih = document.getElementById('kayitTarih');
+    const netSpan = document.getElementById('netDeger');
+    const farkSpan = document.getElementById('farkDeger');
+    const yeniCfSpan = document.getElementById('yeniCfDeger');
+    const hataOranSpan = document.getElementById('hataOranDeger');
+    const gecmisListesi = document.getElementById('gecmisListesi');
+
+    let sonHesaplanan = null;
+    let sonGirdiler = null;
+    let kayitlar = [];
+
+    function loadHistory() {
+        const stored = localStorage.getItem('shenkHesaplari');
+        if (stored) {
+            try { kayitlar = JSON.parse(stored); } catch(e) { kayitlar = []; }
+        } else {
+            kayitlar = [];
         }
+        renderHistory();
+    }
 
-        function renderHistory() {
-            if (!gecmisListesi) return;
-            
-            if (kayitlar.length === 0) {
-                gecmisListesi.innerHTML = '<div style="padding: 20px; text-align: center; color: #8ba89c;">Henüz kayıt yok</div>';
-                return;
-            }
-            
-            const tersKayitlar = [...kayitlar].reverse();
-            
-            gecmisListesi.innerHTML = tersKayitlar.map((item, index) => {
-                const originalIndex = kayitlar.length - 1 - index;
-                return `
-                    <div class="history-item">
-                        <div class="history-header">
-                            <span class="history-name">${escapeHtml(item.isim) || 'İsimsiz'}</span>
-                            <div>
-                                <span class="history-date">${item.tarih || 'Tarihsiz'}</span>
-                                <button class="delete-item" data-index="${originalIndex}">✕</button>
-                            </div>
-                        </div>
-                        <div class="history-girdiler">
-                            <span>🚛 Boş: ${item.bosKamyon}</span>
-                            <span>🏗️ Dolu: ${item.doluKamyon}</span>
-                            <span>📏 Shenk: ${item.shenk}</span>
-                            <span>🔄 Eski CF: ${item.eskiCf}</span>
-                        </div>
-                        <div class="history-values">
-                            <span>📊 NET: ${item.net}</span>
-                            <span>📉 FARK: ${item.fark}</span>
-                            <span>✨ Yeni CF: ${item.yeniCf}</span>
-                            <span>⚠️ Hata: ${item.hataOran}</span>
-                        </div>
+    function saveHistory() {
+        localStorage.setItem('shenkHesaplari', JSON.stringify(kayitlar));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        if (!gecmisListesi) return;
+        if (kayitlar.length === 0) {
+            gecmisListesi.innerHTML = '<div style="padding:12px;text-align:center;color:#6b7280;font-size:0.8rem;">Henüz kayıt yok</div>';
+            return;
+        }
+        const tersKayitlar = [...kayitlar].reverse();
+        gecmisListesi.innerHTML = tersKayitlar.map((item, index) => {
+            const originalIndex = kayitlar.length - 1 - index;
+            return `
+                <div class="history-item">
+                    <div class="history-info">
+                        <strong>🚛 ${escapeHtml(item.isim)}</strong>
+                        📅 ${item.tarih}<br>
+                        <span class="detail-row">Net: <span>${item.net}</span> &nbsp;|&nbsp; Fark: <span>${item.fark}</span></span><br>
+                        <span class="detail-row">Yeni CF: <span>${item.yeniCf}</span> &nbsp;|&nbsp; Hata Oranı: <span>${item.hataOran}</span></span>
                     </div>
-                `;
-            }).join('');
-            
-            document.querySelectorAll('.delete-item').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = parseInt(btn.getAttribute('data-index'));
-                    if (!isNaN(index)) {
-                        kayitlar.splice(index, 1);
+                    <div class="history-actions">
+                        <button class="share-mini-btn" data-idx="${originalIndex}">📤</button>
+                        <button class="delete-mini-btn" data-idx="${originalIndex}">✕</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        document.querySelectorAll('.share-mini-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.getAttribute('data-idx'));
+                if (!isNaN(idx)) paylasKayit(idx);
+            });
+        });
+        document.querySelectorAll('.delete-mini-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const idx = parseInt(btn.getAttribute('data-idx'));
+                if (!isNaN(idx)) {
+                    showConfirm('Bu kaydı silmek istediğinize emin misiniz?', () => {
+                        kayitlar.splice(idx, 1);
                         saveHistory();
                         showMessage('Kayıt silindi');
-                    }
-                });
+                    });
+                }
             });
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m] || m);
+    }
+
+    function parseNumber(value) {
+        if (value === null || value === undefined || value === '') return NaN;
+        let cleaned = value.toString().trim().replace(/,/g, '.');
+        if (cleaned === '') return NaN;
+        return Number(cleaned);
+    }
+
+    function hesapla() {
+        const bos = parseNumber(bosInput.value);
+        const dolu = parseNumber(doluInput.value);
+        const shenk = parseNumber(shenkInput.value);
+        const eskiCf = parseNumber(eskiCfInput.value);
+
+        if (isNaN(bos) || isNaN(dolu) || isNaN(shenk) || isNaN(eskiCf)) {
+            showMessage('Tüm alanları doldurun');
+            return;
+        }
+        if (shenk === 0 || eskiCf === 0) {
+            showMessage('Shenk veya Eski CF 0 olamaz');
+            return;
         }
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
+        const net = dolu - bos;
+        const fark = net - shenk;
+        const netTam = Math.round(net).toLocaleString();
+        const farkTam = Math.round(fark).toLocaleString();
+        netSpan.innerText = netTam;
+        farkSpan.innerText = farkTam;
 
-        function showMessage(msg) {
-            if (toastTimeout) clearTimeout(toastTimeout);
-            toast.textContent = msg;
-            toast.classList.add('show');
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
+        const bosFormatted = Math.round(bos).toLocaleString();
+        const doluFormatted = Math.round(dolu).toLocaleString();
+        const shenkFormatted = Math.round(shenk).toLocaleString();
+        const eskiCfFormatted = eskiCf.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 6 });
 
-        function parseNumber(value) {
-            if (value === null || value === undefined || value === '') return NaN;
-            let cleaned = value.toString().trim().replace(/,/g, '.');
-            if (cleaned === '') return NaN;
-            const num = Number(cleaned);
-            return isNaN(num) ? NaN : num;
-        }
-
-        function hesapla() {
-            const bos = parseNumber(bosInput.value);
-            const dolu = parseNumber(doluInput.value);
-            const shenk = parseNumber(shenkInput.value);
-            const eskiCf = parseNumber(eskiCfInput.value);
-
-            if (isNaN(bos) || isNaN(dolu) || isNaN(shenk) || isNaN(eskiCf)) {
-                showMessage('Tüm alanları doldurun');
-                return;
-            }
-
-            if (shenk === 0) {
-                showMessage('Shenk 0 olamaz');
-                return;
-            }
-
-            if (eskiCf === 0) {
-                showMessage('Eski CF 0 olamaz');
-                return;
-            }
-
-            const net = dolu - bos;
-            const fark = net - shenk;
-            
-            const netTam = Math.round(net).toLocaleString();
-            const farkTam = Math.round(fark).toLocaleString();
-            
-            netSpan.innerText = netTam;
-            farkSpan.innerText = farkTam;
-
-            // Girdileri formatlı sakla
-            const bosFormatted = Math.round(bos).toLocaleString();
-            const doluFormatted = Math.round(dolu).toLocaleString();
-            const shenkFormatted = Math.round(shenk).toLocaleString();
-            const eskiCfFormatted = eskiCf.toLocaleString(undefined, { minimumFractionDigits: 3, maximumFractionDigits: 6 });
-
-            if (net <= 0) {
-                showMessage('Net ağırlık sıfır veya negatif');
-                yeniCfSpan.innerText = '—';
-                hataOranSpan.innerText = '—';
-                sonHesaplanan = null;
-                sonGirdiler = null;
-                return;
-            }
-
-            const netBolShenk = net / shenk;
-            const yeniCf = netBolShenk * eskiCf;
-            const hataOran = (netBolShenk - 1) * 100;
-            
-            const yeniCfFormatted = yeniCf.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 });
-            const hataFormatted = hataOran.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
-            
-            yeniCfSpan.innerText = yeniCfFormatted;
-            hataOranSpan.innerText = `%${hataFormatted}`;
-            
-            sonHesaplanan = {
-                net: netTam,
-                fark: farkTam,
-                yeniCf: yeniCfFormatted,
-                hataOran: `%${hataFormatted}`
-            };
-            
-            sonGirdiler = {
-                bos: bosFormatted,
-                dolu: doluFormatted,
-                shenk: shenkFormatted,
-                eskiCf: eskiCfFormatted
-            };
-        }
-
-        function kaydet() {
-            if (!sonHesaplanan || !sonGirdiler) {
-                showMessage('Önce HESAPLA butonuna basın');
-                return;
-            }
-            
-            let isim = kayitIsim.value.trim();
-            let tarih = kayitTarih.value;
-            
-            if (!isim) {
-                showMessage('İsim giriniz');
-                return;
-            }
-            
-            if (!tarih) {
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
-                tarih = `${yyyy}-${mm}-${dd}`;
-                kayitTarih.value = tarih;
-            }
-            
-            const tarihFormatted = tarih.split('-').reverse().join('.');
-            
-            const yeniKayit = {
-                id: Date.now(),
-                isim: isim,
-                tarih: tarihFormatted,
-                bosKamyon: sonGirdiler.bos,
-                doluKamyon: sonGirdiler.dolu,
-                shenk: sonGirdiler.shenk,
-                eskiCf: sonGirdiler.eskiCf,
-                net: sonHesaplanan.net,
-                fark: sonHesaplanan.fark,
-                yeniCf: sonHesaplanan.yeniCf,
-                hataOran: sonHesaplanan.hataOran,
-                kayitZamani: new Date().toISOString()
-            };
-            
-            kayitlar.unshift(yeniKayit);
-            saveHistory();
-            
-            kayitIsim.value = '';
-            showMessage('Kaydedildi ✓');
-        }
-
-        function temizleGecmis() {
-            if (kayitlar.length === 0) {
-                showMessage('Silinecek kayıt yok');
-                return;
-            }
-            if (confirm('Tüm geçmiş kayıtları silmek istediğinize emin misiniz?')) {
-                kayitlar = [];
-                saveHistory();
-                showMessage('Tüm kayıtlar silindi');
-            }
-        }
-
-        function temizleInputlar() {
-            bosInput.value = '';
-            doluInput.value = '';
-            shenkInput.value = '';
-            eskiCfInput.value = '';
-            netSpan.innerText = '—';
-            farkSpan.innerText = '—';
+        if (net <= 0) {
+            showMessage('Net ağırlık sıfır veya negatif');
             yeniCfSpan.innerText = '—';
             hataOranSpan.innerText = '—';
             sonHesaplanan = null;
             sonGirdiler = null;
-            kayitIsim.value = '';
+            return;
         }
 
-        hesaplaBtn.addEventListener('click', hesapla);
-        resetBtn.addEventListener('click', temizleInputlar);
-        kaydetBtn.addEventListener('click', kaydet);
-        temizleGecmisBtn.addEventListener('click', temizleGecmis);
-        
-        [bosInput, doluInput, shenkInput, eskiCfInput].forEach(input => {
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') hesapla();
-            });
-        });
-        
-        loadHistory();
-        
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        if (!kayitTarih.value) {
-            kayitTarih.value = `${yyyy}-${mm}-${dd}`;
+        const netBolShenk = net / shenk;
+        const yeniCf = netBolShenk * eskiCf;
+        const hataOran = (netBolShenk - 1) * 100;
+        const yeniCfFormatted = yeniCf.toLocaleString(undefined, { minimumFractionDigits: 4, maximumFractionDigits: 4 });
+        const hataFormatted = hataOran.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+        yeniCfSpan.innerText = yeniCfFormatted;
+        hataOranSpan.innerText = '%' + hataFormatted;
+
+        sonHesaplanan = { net: netTam, fark: farkTam, yeniCf: yeniCfFormatted, hataOran: '%' + hataFormatted };
+        sonGirdiler = { bos: bosFormatted, dolu: doluFormatted, shenk: shenkFormatted, eskiCf: eskiCfFormatted };
+    }
+
+    function kaydet() {
+        if (!sonHesaplanan || !sonGirdiler) {
+            showMessage('Önce HESAPLA butonuna basın');
+            return;
         }
-    })();
+        let isim = kayitIsim.value.trim();
+        let tarih = kayitTarih.value;
+        if (!isim) { showMessage('İsim giriniz'); return; }
+        if (!tarih) {
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            tarih = `${yyyy}-${mm}-${dd}`;
+            kayitTarih.value = tarih;
+        }
+        const tarihFormatted = tarih.split('-').reverse().join('.');
+        const yeniKayit = {
+            id: Date.now(),
+            isim: isim,
+            tarih: tarihFormatted,
+            bosKamyon: sonGirdiler.bos,
+            doluKamyon: sonGirdiler.dolu,
+            shenk: sonGirdiler.shenk,
+            eskiCf: sonGirdiler.eskiCf,
+            net: sonHesaplanan.net,
+            fark: sonHesaplanan.fark,
+            yeniCf: sonHesaplanan.yeniCf,
+            hataOran: sonHesaplanan.hataOran,
+            kayitZamani: new Date().toISOString()
+        };
+        kayitlar.unshift(yeniKayit);
+        saveHistory();
+        kayitIsim.value = '';
+        showMessage('Kaydedildi');
+    }
+
+    function paylasKayit(index) {
+        const kayit = kayitlar[index];
+        if (!kayit) return;
+        let metin = `📋 *SHENK TARTIM SONUCU*\n`;
+        metin += `━━━━━━━━━━━━━━━\n`;
+        metin += `🚛 *Araç:* ${kayit.isim}\n`;
+        metin += `📅 *Tarih:* ${kayit.tarih}\n`;
+        metin += `━━━━━━━━━━━━━━━\n`;
+        metin += `📊 GİRİŞ DEĞERLERİ\n`;
+        metin += `• Boş: ${kayit.bosKamyon} kg\n`;
+        metin += `• Dolu: ${kayit.doluKamyon} kg\n`;
+        metin += `• Shenk: ${kayit.shenk} kg\n`;
+        metin += `• Eski CF: ${kayit.eskiCf}\n`;
+        metin += `━━━━━━━━━━━━━━━\n`;
+        metin += `📈 SONUÇLAR\n`;
+        metin += `• Net: ${kayit.net} kg\n`;
+        metin += `• Fark: ${kayit.fark} kg\n`;
+        metin += `• Yeni CF: ${kayit.yeniCf}\n`;
+        metin += `• Hata Oranı: ${kayit.hataOran}\n`;
+        metin += `━━━━━━━━━━━━━━━\n✅ Hesaplama tamamlandı`;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(metin).then(() => {
+                window.open('https://wa.me/?text=' + encodeURIComponent(metin), '_blank');
+            }).catch(() => {
+                window.open('https://wa.me/?text=' + encodeURIComponent(metin), '_blank');
+            });
+        } else {
+            window.open('https://wa.me/?text=' + encodeURIComponent(metin), '_blank');
+        }
+        showMessage('WhatsApp açılıyor...');
+    }
+
+    function temizleGecmis() {
+        if (kayitlar.length === 0) { showMessage('Silinecek kayıt yok'); return; }
+        showConfirm('Tüm kayıtları silmek istediğinize emin misiniz?', () => {
+            kayitlar = [];
+            saveHistory();
+            showMessage('Tüm kayıtlar silindi');
+        });
+    }
+
+    hesaplaBtn.addEventListener('click', hesapla);
+    kaydetBtn.addEventListener('click', kaydet);
+    temizleGecmisBtn.addEventListener('click', temizleGecmis);
+
+    [bosInput, doluInput, shenkInput, eskiCfInput].forEach(input => {
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') hesapla(); });
+    });
+
+    // Tarih
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    if (!kayitTarih.value) kayitTarih.value = `${yyyy}-${mm}-${dd}`;
+
+    // Beni Hatırla kontrolü
+    checkRemember();
+
+    loadHistory();
+})();
 </script>
 </body>
 </html>
