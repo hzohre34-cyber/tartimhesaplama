@@ -815,6 +815,75 @@
             </div>
         </div>
 
+        <!-- 9. Oransal Klape Kalibrasyonları -->
+        <div class="menu-item" id="menuOransalKlape">
+            <div class="menu-header" onclick="toggleMenu('menuOransalKlape')">
+                <span class="menu-title"><span class="menu-icon">🎛️</span> ORANSAL KLAPE KALİBRASYONLARI</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="menu-body">
+                <div class="menu-body-inner">
+
+                    <div class="group-title">🔹 Kinetrol Klape Kalibrasyonu</div>
+                    <div class="talimat-step">
+                        <div class="step-title">1. Ayar Moduna Giriş</div>
+                        <ul>
+                            <li>Setup Modu: <span class="highlight">SET + UP</span> butonlarına aynı anda basın. <span class="highlight">"PGAIN"</span> LED'i yanacaktır.</li>
+                            <li>Parametre Seçimi: <span class="highlight">UP/DOWN</span> tuşlarıyla istediğiniz ayarı (örn. LOW, HIGH, POT) seçin. İlgili LED yanar.</li>
+                        </ul>
+                    </div>
+                    <div class="talimat-step">
+                        <div class="step-title">2. Temel Kalibrasyon Adımları</div>
+                        <ul>
+                            <li><span class="highlight">Sıfır (LOW) Ayarı:</span> Aktüatörü 0° konumuna getirin. Setup modunda LOW parametresini seçip <span class="highlight">SET</span> tuşuna basın (LED yanıp söner). UP/DOWN ile ince ayar yapıp tekrar SET ile onaylayın.</li>
+                            <li><span class="highlight">Maksimum (HIGH) Ayarı:</span> Aktüatörü 90° konumuna getirin. HIGH parametresini seçip aynı adımları uygulayın.</li>
+                        </ul>
+                    </div>
+                    <div class="talimat-step">
+                        <div class="step-title">3. Otomatik Uç Nokta Bulma (POT)</div>
+                        <ul>
+                            <li>Pozisyonerin mekanik dayanakları (0° ve 90°) otomatik tanıması için bu özelliği kullanabilirsiniz.</li>
+                            <li><span class="highlight">POT</span> parametresini seçin.</li>
+                            <li><span class="highlight">UP + SET</span> tuşlarına aynı anda basın. Aktüatör otomatik olarak 0° ve 90°'ye gidip konumları hafızaya alacaktır.</li>
+                        </ul>
+                    </div>
+
+                    <div class="group-title">🔹 SIEMENS Klape Kalibrasyonu</div>
+                    <div class="talimat-step">
+                        <div class="step-title">Kalibrasyon Adımları</div>
+                        <ul>
+                            <li><span class="highlight">Moda girme:</span> HAND tuşuna 5 saniyeden fazla basılı tutarak <span class="highlight">1.YFCT</span> görünene kadar bekleyin.</li>
+                            <li><span class="highlight">Aktüatör tipini seçme:</span> +/- tuşlarıyla <span class="highlight">turn</span> (döner aktüatör) olarak ayarlayın; bu adım zorunludur, aksi takdirde başlatma başarısız olur.</li>
+                            <li><span class="highlight">INITA'ya geçme:</span> HAND tuşuna kısa basarak <span class="highlight">4.INITA</span> görünene kadar ilerleyin.</li>
+                            <li><span class="highlight">Başlatma:</span> + tuşuna 5 saniyeden fazla basılı tutun; ekranda <span class="highlight">RUN1</span> görünür ve vana otomatik olarak hareket etmeye başlar.</li>
+                            <li><span class="highlight">Bekleme:</span> RUN1→RUN5 sırayla otomatik olarak çalışır (aktüatör yönü, strok, hareket süresi vb. belirlenir); bu sırada manuel müdahale etmeyin.</li>
+                            <li><span class="highlight">Tamamlama:</span> Ekranda <span class="highlight">FINISH</span> göründüğünde kalibrasyon tamamlanmış demektir.</li>
+                            <li><span class="highlight">Çıkış:</span> HAND tuşuna 5 saniyeden fazla basarak yapılandırma modundan çıkın; manuel moda döner.</li>
+                        </ul>
+                    </div>
+
+                    <div class="group-title">🔹 ABB Klape Kalibrasyonu</div>
+                    <div class="talimat-step">
+                        <div class="step-title">Kalibrasyon Adımları</div>
+                        <ul>
+                            <li>Pozisyonerin kapağını aç, havayı bağla.</li>
+                            <li>Source'un <span class="highlight">mA+</span> kablosunu <span class="highlight">"+11"</span>, <span class="highlight">mA-</span> kablosunu <span class="highlight">"-12"</span> klemensine bağla.</li>
+                            <li>En az <span class="highlight">4 mA</span> sinyal vererek pozisyoneri enerjilendir.</li>
+                            <li><span class="highlight">MODE + ↑</span> ile modlara gir; <span class="highlight">"1.2"</span> yani MANUEL MOD'a gel.</li>
+                            <li>Manuel modda <span class="highlight">↑/↓</span> ile klapeyi %0 (kapalı) konuma al.</li>
+                            <li><span class="highlight">ENTER</span>'a basılı tut; "KONTRAST" yazısı silinip <span class="highlight">"ADJ_ROT"</span> görünene kadar bekle.</li>
+                            <li>"ADJ_ROT" çıkınca <span class="highlight">ENTER</span>'a tekrar basılı tut; 3-2-1 geri sayım bitince kalibrasyon başlar.</li>
+                            <li>Ekranda <span class="highlight">"COMPLETE"</span> yazısını görünce kalibrasyon tamamdır.</li>
+                            <li>Pozisyoner otomatik moda geçer; manuel moda alıp ↑/↓ ile tam açma-kapama test et (klape %100 açık, %0 kapalı olmalı).</li>
+                            <li>Ters çalışıyorsa tersleme yap (<span class="highlight">↑+↓ + ENTER → CONFIG → P3.2 → CLOCKKW'ı CTCLOCKKW yap → P3.3 → ENTER ile çık</span>).</li>
+                            <li>Source'u kapat, bağlantıları sök, havayı tahliye et, kapağı kapat.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <button class="logout-btn" id="logoutBtn">🔓 Çıkış Yap</button>
